@@ -3,11 +3,82 @@
  */
 package TemaTest;
 
+import java.io.File;
+
 public class App {
     
 public App() {/* compiled code */}
 
     public static void main(java.lang.String[] strings) {
-        System.out.print("Hello world!");
+        if (strings == null)
+            System.out.print("Hello world!");
+        else {
+            try {
+                String message = "";
+                if (strings[0].equals("-create-user")) {
+
+                } else {
+                    if (strings.length < 3)
+                        throw new Exception("You need to be authenticated");
+                    if (strings[0].equals("-create-post")) {
+
+                    } else if (strings[0].equals("-delete-post")) {
+
+                    } else if (strings[0].equals("-follow-user-by-username")) {
+
+                    } else if (strings[0].equals("-unfollow-user-by-usename")) {
+
+                    } else if (strings[0].equals("-like-post")) {
+
+                    } else if (strings[0].equals("-unlike-post")) {
+
+                    } else if (strings[0].equals("-like-comment")) {
+
+                    } else if (strings[0].equals("-unlike-comment")) {
+
+                    } else if (strings[0].equals("-get-followings-posts")) {
+
+                    } else if (strings[0].equals("-get-user-posts")) {
+
+                    } else if (strings[0].equals("-get-post-details")) {
+
+                    } else if (strings[0].equals("-comment-post")) {
+
+                    } else if (strings[0].equals("-delete-comment-by-id")) {
+
+                    } else if (strings[0].equals("-get-following")) {
+
+                    } else if (strings[0].equals("-get-followers")) {
+
+                    } else if (strings[0].equals("-get-most-liked-posts")) {
+
+                    } else if (strings[0].equals("-get-most-commented-posts")) {
+
+                    } else if (strings[0].equals("-get-most-followed-users")) {
+
+                    } else if (strings[0].equals("-get-most-liked-users")) {
+
+                    } else if (strings[0].equals("-cleanup-all")) {
+                        File users = new File("users.txt");
+                        File posts = new File("posts.txt");
+                        File comments = new File("comments.txt");
+                        boolean ok = true;
+                        if (users.exists())
+                            ok = users.delete();
+                        if (posts.exists())
+                            ok = posts.delete();
+                        if (comments.exists())
+                            ok = comments.delete();
+                        if (!ok)
+                            throw new Exception("Error while deleting files!");
+                        else
+                            message = "“Cleanup finished successfully";
+                    }
+                }
+                System.out.println("{'status':'ok','message':'" + message + "'}");
+            } catch (Exception e) {
+                System.out.println("{'status':'error','message':'" + e.getMessage() + "'}");
+            }
+        }
     }
 }
