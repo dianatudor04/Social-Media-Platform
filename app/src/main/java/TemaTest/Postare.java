@@ -4,23 +4,21 @@ import java.util.Date;
 import java.util.List;
 
 public class Postare implements Likeable {
-    private int idPostare;
+    private int idPostare = 0;
     private String Post_text;
     private int nrLikes;
     private int nrComments;
     private Utilizator post_author;
-    private Date post_date;
-    static int val_post = 0;
+    static int number_of_posts = 0;
     private List<Comentariu> comentarii = new ArrayList<Comentariu>();
 
-    public Postare(String Post_text, Utilizator post_author, Date post_date) {
+    public Postare(String Post_text, Utilizator post_author) {
         this.Post_text = Post_text;
         this.post_author = post_author;
-        this.post_date = post_date;
         this.nrLikes = 0;
         this.nrComments = 0;
-        this.idPostare += val_post;
-        val_post++;
+        number_of_posts++;
+        this.idPostare = number_of_posts;
     }
 
     public int getIdPostare() {
@@ -41,14 +39,6 @@ public class Postare implements Likeable {
 
     public Utilizator getPost_author() {
         return post_author;
-    }
-
-    public Date getPost_date() {
-        return post_date;
-    }
-
-    public static int getVal_post() {
-        return val_post;
     }
 
     public List<Comentariu> getComentarii() {
@@ -73,10 +63,6 @@ public class Postare implements Likeable {
 
     public void setPost_author(Utilizator post_author) {
         this.post_author = post_author;
-    }
-
-    public void setPost_date(Date post_date) {
-        this.post_date = post_date;
     }
 
     public void setComentarii(List<Comentariu> comentarii) {
