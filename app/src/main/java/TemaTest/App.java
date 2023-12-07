@@ -24,7 +24,6 @@ public App() {/* compiled code */}
                 System.out.println(e.getMessage());
             }
         }
-
         file = new File("posts.csv");
         if (!file.exists()) {
             try (FileWriter fw = new FileWriter("posts.csv", true);
@@ -46,10 +45,10 @@ public App() {/* compiled code */}
                         throw new Exception("Please provide username");
                     if (strings.length < 3)
                         throw new Exception("Please provide password");
+
                     int ok = 1;
                     String username = strings[1].split("'")[1];
                     String password = strings[2].split("'")[1];
-
                     try (BufferedReader br = new BufferedReader(new FileReader("users.csv"))) {
                         String line;
                         boolean first = true;
@@ -134,25 +133,38 @@ public App() {/* compiled code */}
                         int id = Integer.parseInt(strings[3].split("'")[1]);
                         if (id > Postare.number_of_posts || id < 1)
                             throw new Exception("The identifier was not valid");
+
                         message = "Post deleted successfully";
                     } else if (strings[0].equals("-follow-user-by-username")) {
                         if (strings.length < 4)
                             throw new Exception("No username to follow was provided");
-                    } else if (strings[0].equals("-unfollow-user-by-usename")) {
+
+                        message = "Operation executed successfully";
+                    } else if (strings[0].equals("-unfollow-user-by-username")) {
                         if (strings.length < 4)
                             throw new Exception("No username to unfollow was provided");
+
+                        message = "Operation executed successfully";
                     } else if (strings[0].equals("-like-post")) {
                         if (strings.length < 4)
                             throw new Exception("No post identifier to like was provided");
+
+                        message = "Operation executed successfully";
                     } else if (strings[0].equals("-unlike-post")) {
                         if (strings.length < 4)
                             throw new Exception("No post identifier to unlike was provided");
+
+                        message = "Operation executed successfully";
                     } else if (strings[0].equals("-like-comment")) {
                         if (strings.length < 4)
                             throw new Exception("No comment identifier to like was provided");
+
+                        message = "Operation executed successfully";
                     } else if (strings[0].equals("-unlike-comment")) {
                         if (strings.length < 4)
                             throw new Exception("No comment identifier to unlike was provided");
+
+                        message = "Operation executed successfully";
                     } else if (strings[0].equals("-get-followings-posts")) {
 
                     } else if (strings[0].equals("-get-user-posts")) {
@@ -163,11 +175,12 @@ public App() {/* compiled code */}
                             throw new Exception("No post identifier was provided");
                     } else if (strings[0].equals("-comment-post")) {
                         if (strings.length < 4)
-                            throw new Exception("No text was provided");
+                            throw new Exception("No text provided");
+
+                        message = "Comment added successfully";
                         String text = strings[3].split("'")[1];
                         if (text.length() > 300)
                             throw new Exception("Comment text length exceeded");
-
                     } else if (strings[0].equals("-delete-comment-by-id")) {
                         if (strings.length < 4)
                             throw new Exception("No identifier was provided");
