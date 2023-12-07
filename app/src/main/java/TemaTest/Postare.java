@@ -1,10 +1,9 @@
 package TemaTest;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class Postare implements Likeable {
-    private int idPostare = 0;
+    private int idPostare;
     private String Post_text;
     private int nrLikes;
     private int nrComments;
@@ -90,6 +89,4 @@ public class Postare implements Likeable {
         comentarii.remove(c);
         nrComments--;
     }
-
-
 }

@@ -6,12 +6,10 @@ package TemaTest;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Objects;
-import java.util.SimpleTimeZone;
 
 public class App {
     
-public App() {/* compiled code */}
+    public App() {/* compiled code */}
 
     public static void main(java.lang.String[] strings) {
         File file = new File("users.csv");
@@ -24,6 +22,7 @@ public App() {/* compiled code */}
                 System.out.println(e.getMessage());
             }
         }
+
         file = new File("posts.csv");
         if (!file.exists()) {
             try (FileWriter fw = new FileWriter("posts.csv", true);
@@ -35,8 +34,20 @@ public App() {/* compiled code */}
             }
         }
 
+        file = new File("comments.csv");
+        if (!file.exists()) {
+            try (FileWriter fw = new FileWriter("comments.csv", true);
+                 BufferedWriter bw = new BufferedWriter(fw);
+                 PrintWriter out = new PrintWriter(bw)) {
+                out.println("Id,Text,Author,PostId");
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
         if (strings == null)
             System.out.print("Hello world!");
+
         else {
             try {
                 String message = "";
@@ -73,12 +84,15 @@ public App() {/* compiled code */}
                     } catch (IOException e) {
                         System.out.println(e.getMessage());
                     }
+
                     message = "User created successfully";
                 } else if (strings[0].equals("-cleanup-all")) {
                     try {
                         Files.delete(Paths.get("users.csv"));
                         Files.delete(Paths.get("posts.csv"));
+                        Files.delete(Paths.get("comments.csv"));
                         Postare.number_of_posts = 0;
+                        Comentariu.number_of_comments = 0;
                         message = "Cleaned up successfully";
                     } catch(IOException e) {
                         System.out.println(e.getMessage());
@@ -121,7 +135,8 @@ public App() {/* compiled code */}
                         try (FileWriter fw = new FileWriter("posts.csv", true);
                              BufferedWriter bw = new BufferedWriter(fw);
                              PrintWriter out = new PrintWriter(bw)) {
-                            out.println(postare.getIdPostare() + "," + postare.getPost_text() + "," + postare.getPost_author().getUsername());
+                            out.println(postare.getIdPostare() + "," + postare.getPost_text() + ","
+                                    + postare.getPost_author().getUsername());
                         } catch (IOException e) {
                             System.out.println(e.getMessage());
                         }
@@ -132,6 +147,25 @@ public App() {/* compiled code */}
                             throw new Exception("No identifier was provided");
                         int id = Integer.parseInt(strings[3].split("'")[1]);
                         if (id > Postare.number_of_posts || id < 1)
+                            throw new Exception("The identifier was not valid");
+
+                        int allowed = 1;
+                        try (BufferedReader br = new BufferedReader(new FileReader("posts.csv"))) {
+                            String line;
+                            boolean first = true;
+                            while ((line = br.readLine()) != null) {
+                                if (first) {
+                                    first = false;
+                                    continue;
+                                }
+                                String[] values = line.split(",");
+                                int id_current = Integer.parseInt(values[0]);
+                                if (id_current == id && !values[2].equals(username)) {
+                                    allowed = 0;
+                                }
+                            }
+                        }
+                        if (allowed == 0)
                             throw new Exception("The identifier was not valid");
 
                         message = "Post deleted successfully";
@@ -174,16 +208,53 @@ public App() {/* compiled code */}
                         if (strings.length < 4)
                             throw new Exception("No post identifier was provided");
                     } else if (strings[0].equals("-comment-post")) {
-                        if (strings.length < 4)
+                        if (strings.length < 5)
                             throw new Exception("No text provided");
-
-                        message = "Comment added successfully";
-                        String text = strings[3].split("'")[1];
+                        String aux = strings[3].split("'")[1];
+                        int idPostare = Integer.parseInt(aux);
+                        String text = strings[4].split("'")[1];
                         if (text.length() > 300)
                             throw new Exception("Comment text length exceeded");
+
+                        Comentariu comentariu = new Comentariu(idPostare, text, new Utilizator(username, password));
+
+                        try (FileWriter fw = new FileWriter("comments.csv", true);
+                             BufferedWriter bw = new BufferedWriter(fw);
+                             PrintWriter out = new PrintWriter(bw)) {
+                            out.println(comentariu.getIdComentariu() + "," + comentariu.getTextComentariu() + ","
+                                    + comentariu.getComentator().getUsername() + "," + comentariu.getIdPostare());
+                        } catch (IOException e) {
+                            System.out.println(e.getMessage());
+                        }
+
+                        message = "Comment added successfully";
                     } else if (strings[0].equals("-delete-comment-by-id")) {
                         if (strings.length < 4)
                             throw new Exception("No identifier was provided");
+                        int id = Integer.parseInt(strings[3].split("'")[1]);
+                        if (id > Comentariu.number_of_comments || id < 1)
+                            throw new Exception("The identifier was not valid");
+
+                        int allowed = 1;
+                        try (BufferedReader br = new BufferedReader(new FileReader("comments.csv"))) {
+                            String line;
+                            boolean first = true;
+                            while ((line = br.readLine()) != null) {
+                                if (first) {
+                                    first = false;
+                                    continue;
+                                }
+                                String[] values = line.split(",");
+                                int id_current = Integer.parseInt(values[0]);
+                                if (id_current == id && !values[2].equals(username)) {
+                                    allowed = 0;
+                                }
+                            }
+                        }
+                        if (allowed == 0)
+                            throw new Exception("The identifier was not valid");
+
+                        message = "Operation executed successfully";
                     } else if (strings[0].equals("-get-following")) {
 
                     } else if (strings[0].equals("-get-followers")) {

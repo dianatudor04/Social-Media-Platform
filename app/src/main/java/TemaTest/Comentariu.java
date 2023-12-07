@@ -2,16 +2,37 @@ package TemaTest;
 
 public class Comentariu implements Likeable {
     private int idComentariu;
+    private int IdPostare;
     private int nrLikes;
-    static int valoare = 0;
+    static int number_of_comments = 0;
     private String textComentariu;
+    private Utilizator comentator;
 
 
-    public Comentariu(int idComentariu, String textComentariu) {
-        this.idComentariu += valoare;
+    public Comentariu(int IdPostare, String textComentariu, Utilizator comentator) {
+        number_of_comments++;
+        this.idComentariu = number_of_comments;
+        this.IdPostare = IdPostare;
         this.textComentariu = textComentariu;
-        valoare++;
+        this.comentator = comentator;
     }
+
+    public int getIdComentariu() {
+        return idComentariu;
+    }
+
+    public int getIdPostare() {
+        return IdPostare;
+    }
+
+    public String getTextComentariu() {
+        return textComentariu;
+    }
+
+    public Utilizator getComentator() {
+        return comentator;
+    }
+
     public void like() {
         nrLikes++;
     }
@@ -22,9 +43,4 @@ public class Comentariu implements Likeable {
             nrLikes--;
         }
     }
-
-
-
-
-
 }
