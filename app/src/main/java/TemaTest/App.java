@@ -136,31 +136,46 @@ public App() {/* compiled code */}
                             throw new Exception("The identifier was not valid");
                         message = "Post deleted successfully";
                     } else if (strings[0].equals("-follow-user-by-username")) {
-
+                        if (strings.length < 4)
+                            throw new Exception("No username to follow was provided");
                     } else if (strings[0].equals("-unfollow-user-by-usename")) {
-
+                        if (strings.length < 4)
+                            throw new Exception("No username to unfollow was provided");
                     } else if (strings[0].equals("-like-post")) {
-
+                        if (strings.length < 4)
+                            throw new Exception("No post identifier to like was provided");
                     } else if (strings[0].equals("-unlike-post")) {
-
+                        if (strings.length < 4)
+                            throw new Exception("No post identifier to unlike was provided");
                     } else if (strings[0].equals("-like-comment")) {
-
+                        if (strings.length < 4)
+                            throw new Exception("No comment identifier to like was provided");
                     } else if (strings[0].equals("-unlike-comment")) {
-
+                        if (strings.length < 4)
+                            throw new Exception("No comment identifier to unlike was provided");
                     } else if (strings[0].equals("-get-followings-posts")) {
 
                     } else if (strings[0].equals("-get-user-posts")) {
-
+                        if (strings.length < 4)
+                            throw new Exception("No username to list posts was provided");
                     } else if (strings[0].equals("-get-post-details")) {
-
+                        if (strings.length < 4)
+                            throw new Exception("No post identifier was provided");
                     } else if (strings[0].equals("-comment-post")) {
+                        if (strings.length < 4)
+                            throw new Exception("No text was provided");
+                        String text = strings[3].split("'")[1];
+                        if (text.length() > 300)
+                            throw new Exception("Comment text length exceeded");
 
                     } else if (strings[0].equals("-delete-comment-by-id")) {
-
+                        if (strings.length < 4)
+                            throw new Exception("No identifier was provided");
                     } else if (strings[0].equals("-get-following")) {
 
                     } else if (strings[0].equals("-get-followers")) {
-
+                        if (strings.length < 4)
+                            throw new Exception("No username to list followers was provided");
                     } else if (strings[0].equals("-get-most-liked-posts")) {
 
                     } else if (strings[0].equals("-get-most-commented-posts")) {
