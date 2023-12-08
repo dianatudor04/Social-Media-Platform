@@ -8,7 +8,8 @@ public class Postare implements Likeable {
     private int nrLikes;
     private int nrComments;
     private Utilizator post_author;
-    static int number_of_posts = 0;
+    static int number_of_posts = 0; // static variable to keep track of the number of posts.
+                                    // It is incremented each time a new post is created
     private List<Comentariu> comentarii = new ArrayList<Comentariu>();
 
     public Postare(String Post_text, Utilizator post_author) {
@@ -80,13 +81,5 @@ public class Postare implements Likeable {
     }
 
 
-    public void addComment(Comentariu c) {
-        comentarii.add(c);
-        nrComments++;
-    }
 
-    public void removeComment(Comentariu c) {
-        comentarii.remove(c);
-        nrComments--;
-    }
 }

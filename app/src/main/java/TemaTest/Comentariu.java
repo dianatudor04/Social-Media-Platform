@@ -4,7 +4,8 @@ public class Comentariu implements Likeable {
     private int idComentariu;
     private int IdPostare;
     private int nrLikes;
-    static int number_of_comments = 0;
+    static int number_of_comments = 0;// static variable to keep track of the number of comments.
+                                      // It is incremented each time a new comment is created
     private String textComentariu;
     private Utilizator comentator;
 
